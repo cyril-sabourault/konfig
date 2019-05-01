@@ -9,7 +9,7 @@ https://github.com/kelseyhightower/konfig)
 
 # Konfig 
 
-konfig enables serverless workloads running on GCP to reference Kubernetes configmaps and secrets stored in GKE clusters at runtime. konfig currently supports Cloud Run and Cloud Functions workloads.
+konfig enables serverless workloads running on GCP to reference Kubernetes configmaps and secrets stored in GKE clusters at runtime. konfig currently supports Cloud Run workloads.
 
 ## How Does it Work
 
