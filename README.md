@@ -2,7 +2,8 @@ Poor man's python implementation of [Kelsey Hightower's Go Konfig](
 https://github.com/kelseyhightower/konfig)
 
 
-> * no support for config files
+> * no support for Cloud Functions
+> * no support for config files in secrets
 > * not packaged
 
 ---
