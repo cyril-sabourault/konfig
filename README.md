@@ -22,7 +22,7 @@ The side effect of importing the `konfig` library will cause konfig to:
 
 References to Kubernetes configmaps and secrets can be made when defining Cloud Run environment variables using the [reference syntax](https://github.com/kelseyhightower/konfig/blob/master/docs/reference-syntax.md).
 
-## Tutorials
+## Tutorial
 
 A GKE cluster is used to store configmaps and secrets referenced by Cloud Run and Cloud Function workloads. Ideally an existing cluster can be used. For the purpose of this tutorial create the smallest GKE cluster possible in the `europe-west1b` zone-:
 
@@ -71,6 +71,9 @@ kubectl create configmap env \
 ```
 
 At this point the `env` secret and configmap can be referenced from Cloud Run using `konfig`.
+
+![cloud run web id](example.png)
+> Example config env variables refering to kubernetes secrets
 
 ### Cloud Run Tutorial
 
