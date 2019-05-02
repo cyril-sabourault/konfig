@@ -74,7 +74,7 @@ kubectl create configmap env \
 
 At this point the `env` secret and configmap can be referenced from Cloud Run using `konfig`.
 
-![cloud run web id](example.png)
+![cloud run web id](docs/example.png)
 > Example config env variables refering to kubernetes secrets
 
 ### Cloud Run Tutorial
