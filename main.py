@@ -1,8 +1,8 @@
 import os
 import logging
 from flask import Flask, jsonify
-from cloud_run import Cloud_Run
-from gke import GKE
+from gcp.cloud_run import Cloud_Run
+from gcp.gke import GKE
 
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
 logger = logging.getLogger('main')
