@@ -2,7 +2,7 @@ import os
 import json
 import logging
 import requests
-from http import HTTP
+from utils.http import HTTP
 
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
 logger = logging.getLogger('cloud_run')
