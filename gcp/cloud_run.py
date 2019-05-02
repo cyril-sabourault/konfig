@@ -25,10 +25,10 @@ class Cloud_Run:
         return "us-central1"
 
     def __get_service(self):
-        return os.environ.get("K_SERVICE", "konfig")
+        return os.environ.get("K_SERVICE")
 
     def __get_project(self):
-        return os.environ.get("GOOGLE_CLOUD_PROJECT", "sandbox-csabourault")
+        return os.environ.get("GOOGLE_CLOUD_PROJECT")
 
     def __get_service_name(self):
         if (self.service == "") or (self.project == ""):
