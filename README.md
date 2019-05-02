@@ -6,6 +6,8 @@ https://github.com/kelseyhightower/konfig)
 > * no support for config files in secrets
 > * not packaged
 
+[![Run on Google Cloud][cloud-run-button]][cloud-shell-link-with-git-repo]
+
 ---
 
 # Konfig 
@@ -128,3 +130,7 @@ Output:
 ENVIRONMENT: production
 FOO: bar
 ```
+
+[//]: # (Links)
+[cloud-run-button]: https://storage.googleapis.com/cloudrun/button.png
+[cloud-shell-link-with-git-repo]: https://console.cloud.google.com/cloudshell/editor?shellonly=true&cloudshell_image=gcr.io/cloudrun/button&cloudshell_git_repo=https://github.com/Limezest/konfig
