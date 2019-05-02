@@ -1,12 +1,12 @@
 Poor man's python implementation of [Kelsey Hightower's Go Konfig][kelseyhightower-konfig]
 
-
 > * no support for Cloud Functions
 > * no support for config files in secrets
 > * not packaged
 
+#### Commandless testing: 
 [![Run on Google Cloud][cloud-run-button]][cloud-shell-link-with-git-repo]
-
+> Then deploy a new revision of this service with your secret environment variables :)
 ---
 
 # Konfig 
