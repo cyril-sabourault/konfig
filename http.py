@@ -2,6 +2,7 @@ import os
 import json
 import logging
 import requests
+from requests import ConnectionError, HTTPError
 import urllib3
 urllib3.disable_warnings()
 
@@ -19,8 +20,13 @@ class HTTP():
             'Metadata-Flavor': "Google"
         }
 
-        response = requests.get(access_token_url, headers=headers)
-        data = response.json()
+        try:
+            response = requests.get(access_token_url, headers=headers)
+            response.raise_for_status()
+            data = response.json()
+        except ConnectionError as e:
+            logging.error('{}: {}'.format(type(e), e.message))
+            data = {}
 
         return data.get("access_token", "")
 
@@ -29,7 +35,12 @@ class HTTP():
             'Authorization': "Bearer {access_token}".format(access_token=self.access_token)
         }
 
-        response = requests.get(url, headers=headers, verify=False)
-        data = response.json()
+        try:
+            response = requests.get(url, headers=headers, verify=False)
+            response.raise_for_status()
+            data = response.json()
+        except (ConnectionError, HTTPError) as e:
+            logging.error('{}: {}'.format(type(e), e.message))
+            data = {}
 
         return data

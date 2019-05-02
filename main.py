@@ -1,4 +1,3 @@
-# imports
 import os
 import logging
 from flask import Flask, jsonify
@@ -38,7 +37,7 @@ def konfig():
         resource = gke.get_resource(reference)
         os.environ[key] = resource
         values_from_k8s[key] = resource
-        
+
         print('resource ({}): {}'.format(type(resource), resource))
         print('---')
 

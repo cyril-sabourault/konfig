@@ -15,12 +15,10 @@ class GKE:
         self.http = HTTP()
         self.cluster_id = cluster_id
         self.endpoint = self.__get_endpoint()
-        logger.warning('initialized {}'.format(cluster_id))
 
     def __get_endpoint(self):
         url = self.GKE_API_URL + 'v1/{cluster_id}'.format(
             cluster_id=self.cluster_id)
-        logger.warning(url)
         data = self.http.get(url)
 
         return data.get('endpoint')
@@ -32,7 +30,6 @@ class GKE:
             kind=reference.get('kind'),
             resource_name=reference.get('resource_name')
         )
-        logging.warning(url)
         data = self.http.get(url)
         key = data.get('data').get(reference.get('key'))
 

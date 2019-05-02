@@ -44,15 +44,16 @@ class Cloud_Run:
 
         try:
             data = self.http.get(self.run_endpoint + querystring)
-            print('[DEBUG] data ({}): {}'.format(type(data), data))
+            if (len(data) == 0):
+                return {}
 
             environment_variables = data.get('spec').get('runLatest').get(
                 'configuration').get('revisionTemplate').get('spec').get('container').get('env')
 
             if (len(environment_variables) == 0):
                 return {}
-        except AttributeError:
-            logger.error('ERROR FETCHING env variables')
+        except AttributeError as e:
+            logging.error('{}: {}'.format(type(e), e.message))
             return {}
 
         return {
