@@ -1,5 +1,4 @@
-Poor man's python implementation of [Kelsey Hightower's Go Konfig](
-https://github.com/kelseyhightower/konfig)
+Poor man's python implementation of [Kelsey Hightower's Go Konfig][kelseyhightower-konfig]
 
 
 > * no support for Cloud Functions
@@ -23,7 +22,7 @@ The side effect of importing the `konfig` library will cause konfig to:
 * retrieve configmap and secret keys from the GKE cluster using the service account provided to the Cloud Run or Cloud Function instance.
 * substitute the reference string with the value of the configmap or secret key.
 
-References to Kubernetes configmaps and secrets can be made when defining Cloud Run environment variables using the [reference syntax](https://github.com/kelseyhightower/konfig/blob/master/docs/reference-syntax.md).
+References to Kubernetes configmaps and secrets can be made when defining Cloud Run environment variables using the [reference syntax][kelseyhightower-konfig-reference-syntax].
 
 ## Tutorial
 
@@ -134,3 +133,5 @@ FOO: bar
 [//]: # (Links)
 [cloud-run-button]: https://storage.googleapis.com/cloudrun/button.png
 [cloud-shell-link-with-git-repo]: https://console.cloud.google.com/cloudshell/editor?shellonly=true&cloudshell_image=gcr.io/cloudrun/button&cloudshell_git_repo=https://github.com/Limezest/konfig
+[kelseyhightower-konfig]: https://github.com/kelseyhightower/konfig
+[kelseyhightower-konfig-reference-syntax]: https://github.com/kelseyhightower/konfig/blob/master/docs/reference-syntax.md
