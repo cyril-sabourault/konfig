@@ -1,6 +1,8 @@
 import os
+import json
 import logging
 from flask import Flask, jsonify
+from gcp.cloud_functions import Cloud_Functions
 from gcp.cloud_run import Cloud_Run
 from gcp.gke import GKE
 
@@ -16,9 +18,10 @@ def hello_world():
 
 
 @app.route('/konfig')
-def konfig():
-    cloud_run = Cloud_Run()
-    environment_variables = cloud_run.get_environment_variables()
+# def konfig():
+def konfig(e):
+    runtime = get_runtime()
+    environment_variables = runtime.get_environment_variables()
 
     registered_gkes = {}
     values_from_k8s = {}
@@ -26,10 +29,10 @@ def konfig():
         if (not is_reference(value)):
             continue
 
-        print key + ': ' + value
+        print(key + ': ' + value)
         reference = parse_reference(value)
 
-        gke = registered_gkes.get(reference.get('cluster_id', None))
+        gke = registered_gkes.get(reference.get('cluster_id'))
         if (gke is None):
             gke = GKE(reference.get('cluster_id'))
             registered_gkes[reference.get('cluster_id')] = gke
@@ -40,8 +43,18 @@ def konfig():
 
         print('resource ({}): {}'.format(type(resource), resource))
         print('---')
+    return json.dumps(values_from_k8s)
+    # return jsonify(values_from_k8s)
 
-    return jsonify(values_from_k8s)
+
+def get_runtime():
+    if (os.environ.get('FUNCTION_NAME')):
+        return Cloud_Functions()
+
+    if (os.environ.get('K_SERVICE')):
+        return Cloud_Run()
+
+    return None
 
 
 def is_reference(value):
