@@ -1,7 +1,6 @@
 import os
 import json
 import logging
-import requests
 from utils.http import HTTP
 from base64 import b64decode
 
@@ -34,5 +33,5 @@ class GKE:
         key = data.get('data').get(reference.get('key'))
 
         if (reference.get('kind') == 'secret'):
-            return b64decode(key)
+            return b64decode(key).decode('ascii')
         return key
