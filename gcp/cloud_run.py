@@ -1,7 +1,6 @@
 import os
 import json
 import logging
-import requests
 from utils.http import HTTP
 
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
