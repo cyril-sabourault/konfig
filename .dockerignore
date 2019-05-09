@@ -5,4 +5,5 @@ venv/
 *.pyc
 *.png
 
+.DS_Store
 deploy.sh
