@@ -1,0 +1,1 @@
+from .konfig import get_values_from_k8s

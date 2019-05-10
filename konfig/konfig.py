@@ -1,6 +1,6 @@
 import os
-import json
 import logging
+
 from flask import Flask, jsonify
 from gcp.cloud_functions import Cloud_Functions
 from gcp.cloud_run import Cloud_Run
@@ -8,19 +8,6 @@ from gcp.gke import GKE
 
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
 logger = logging.getLogger('main')
-
-app = Flask(__name__)
-
-
-@app.route('/')
-def hello_world():
-    return 'healthy service :)'
-
-
-@app.route('/konfig')
-def konfig(e=None):
-    values_from_k8s = get_values_from_k8s()
-    return jsonify(values_from_k8s)
 
 
 def get_values_from_k8s():
