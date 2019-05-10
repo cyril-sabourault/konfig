@@ -18,8 +18,12 @@ def hello_world():
 
 
 @app.route('/konfig')
-# def konfig():
-def konfig(e):
+def konfig(e=None):
+    values_from_k8s = get_values_from_k8s()
+    return jsonify(values_from_k8s)
+
+
+def get_values_from_k8s():
     runtime = get_runtime()
     environment_variables = runtime.get_environment_variables()
 
@@ -31,6 +35,9 @@ def konfig(e):
 
         print(key + ': ' + value)
         reference = parse_reference(value)
+        if (not reference):
+            logger.warning('reference is badly constructed')
+            continue
 
         gke = registered_gkes.get(reference.get('cluster_id'))
         if (gke is None):
@@ -43,8 +50,8 @@ def konfig(e):
 
         print('resource ({}): {}'.format(type(resource), resource))
         print('---')
-    return json.dumps(values_from_k8s)
-    # return jsonify(values_from_k8s)
+
+    return values_from_k8s
 
 
 def get_runtime():
@@ -72,12 +79,15 @@ def parse_reference(value):
         path = value.split('$SecretKeyRef:')[1]
         kind = 'secret'
 
-    ss = path.split('/')
-    cluster_id = '/'.join(ss[i] for i in range(1, 7))
+    try:
+        ss = path.split('/')
+        cluster_id = '/'.join(ss[i] for i in range(1, 7))
 
-    namespace = ss[8]
-    resource_name = ss[10]
-    key = ss[12]
+        namespace = ss[8]
+        resource_name = ss[10]
+        key = ss[12]
+    except (IndexError, Exception) as e:
+        return {}
 
     return {
         "cluster_id": cluster_id,
