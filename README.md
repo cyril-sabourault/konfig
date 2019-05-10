@@ -3,7 +3,7 @@ Poor man's python implementation of [Kelsey Hightower's Go Konfig][kelseyhightow
 > * no support for config files in secrets
 > * not packaged
 
-#### Commandless testing: 
+#### Commandless testing on Cloud Run: 
 [![Run on Google Cloud][cloud-run-button]][cloud-shell-link-with-git-repo]
 > Then deploy a new revision of this service with your secret environment variables :)
 ---
