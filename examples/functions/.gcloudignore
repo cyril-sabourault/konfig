@@ -6,4 +6,5 @@ venv/
 *.png
 
 .DS_Store
-deploy.sh
+deploy-functions.sh
+local.env
