@@ -1,6 +1,8 @@
 import os
+import json
 import logging
 from flask import Flask, jsonify
+from gcp.cloud_functions import Cloud_Functions
 from gcp.cloud_run import Cloud_Run
 from gcp.gke import GKE
 
@@ -16,9 +18,14 @@ def hello_world():
 
 
 @app.route('/konfig')
-def konfig():
-    cloud_run = Cloud_Run()
-    environment_variables = cloud_run.get_environment_variables()
+def konfig(e=None):
+    values_from_k8s = get_values_from_k8s()
+    return jsonify(values_from_k8s)
+
+
+def get_values_from_k8s():
+    runtime = get_runtime()
+    environment_variables = runtime.get_environment_variables()
 
     registered_gkes = {}
     values_from_k8s = {}
@@ -26,10 +33,13 @@ def konfig():
         if (not is_reference(value)):
             continue
 
-        print key + ': ' + value
+        print(key + ': ' + value)
         reference = parse_reference(value)
+        if (not reference):
+            logger.warning('reference is badly constructed')
+            continue
 
-        gke = registered_gkes.get(reference.get('cluster_id', None))
+        gke = registered_gkes.get(reference.get('cluster_id'))
         if (gke is None):
             gke = GKE(reference.get('cluster_id'))
             registered_gkes[reference.get('cluster_id')] = gke
@@ -41,7 +51,17 @@ def konfig():
         print('resource ({}): {}'.format(type(resource), resource))
         print('---')
 
-    return jsonify(values_from_k8s)
+    return values_from_k8s
+
+
+def get_runtime():
+    if (os.environ.get('FUNCTION_NAME')):
+        return Cloud_Functions()
+
+    if (os.environ.get('K_SERVICE')):
+        return Cloud_Run()
+
+    return None
 
 
 def is_reference(value):
@@ -59,12 +79,15 @@ def parse_reference(value):
         path = value.split('$SecretKeyRef:')[1]
         kind = 'secret'
 
-    ss = path.split('/')
-    cluster_id = '/'.join(ss[i] for i in range(1, 7))
+    try:
+        ss = path.split('/')
+        cluster_id = '/'.join(ss[i] for i in range(1, 7))
 
-    namespace = ss[8]
-    resource_name = ss[10]
-    key = ss[12]
+        namespace = ss[8]
+        resource_name = ss[10]
+        key = ss[12]
+    except (IndexError, Exception) as e:
+        return {}
 
     return {
         "cluster_id": cluster_id,
