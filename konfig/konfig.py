@@ -1,7 +1,6 @@
 import os
 import logging
 
-from flask import Flask, jsonify
 from gcp.cloud_functions import Cloud_Functions
 from gcp.cloud_run import Cloud_Run
 from gcp.gke import GKE
@@ -83,7 +82,3 @@ def parse_reference(value):
         "resource_name": resource_name,
         "key": key
     }
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=os.environ.get('PORT'))
