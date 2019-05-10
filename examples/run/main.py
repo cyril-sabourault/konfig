@@ -16,7 +16,7 @@ def hello_world():
 
 
 @app.route('/konfig')
-def konfig(e=None):
+def konfig():
     values_from_k8s = get_values_from_k8s()
     return jsonify(values_from_k8s)
 

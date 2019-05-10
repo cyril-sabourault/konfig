@@ -1,26 +1,26 @@
 import os
 import logging
 
-from gcp.cloud_functions import Cloud_Functions
-from gcp.cloud_run import Cloud_Run
-from gcp.gke import GKE
+from .gcp.cloud_functions import Cloud_Functions
+from .gcp.cloud_run import Cloud_Run
+from .gcp.gke import GKE
 
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
 logger = logging.getLogger('main')
 
 
 def get_values_from_k8s():
-    runtime = get_runtime()
+    runtime = __get_runtime()
     environment_variables = runtime.get_environment_variables()
 
     registered_gkes = {}
     values_from_k8s = {}
     for key, value in environment_variables.items():
-        if (not is_reference(value)):
+        if (not __is_reference(value)):
             continue
 
         print(key + ': ' + value)
-        reference = parse_reference(value)
+        reference = __parse_reference(value)
         if (not reference):
             logger.warning('reference is badly constructed')
             continue
@@ -40,7 +40,7 @@ def get_values_from_k8s():
     return values_from_k8s
 
 
-def get_runtime():
+def __get_runtime():
     if (os.environ.get('FUNCTION_NAME')):
         return Cloud_Functions()
 
@@ -50,13 +50,13 @@ def get_runtime():
     return None
 
 
-def is_reference(value):
+def __is_reference(value):
     if (value.startswith('$SecretKeyRef:') or value.startswith('$ConfigMapKeyRef:')):
         return True
     return False
 
 
-def parse_reference(value):
+def __parse_reference(value):
     if (value.startswith('$ConfigMapKeyRef:')):
         path = value.split('$ConfigMapKeyRef:')[1]
         kind = 'configmap'

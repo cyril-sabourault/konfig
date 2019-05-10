@@ -1,1 +1,1 @@
-from .konfig import get_values_from_k8s
+from .main import get_values_from_k8s
