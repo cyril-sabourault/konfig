@@ -25,7 +25,7 @@ class HTTP():
             response.raise_for_status()
             data = response.json()
         except ConnectionError as e:
-            logging.error('{}: {}'.format(type(e), e.message))
+            logging.error('{}: {}'.format(type(e), e))
             data = {}
 
         return data.get("access_token", "")

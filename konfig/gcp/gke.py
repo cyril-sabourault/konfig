@@ -1,7 +1,8 @@
 import os
 import json
 import logging
-from utils.http import HTTP
+
+from ..utils.http import HTTP
 from base64 import b64decode
 
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))

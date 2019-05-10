@@ -1,6 +1,6 @@
 import os
 
-from utils.http import HTTP
+from ..utils.http import HTTP
 
 
 class Cloud_Functions:
