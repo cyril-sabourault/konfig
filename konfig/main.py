@@ -6,7 +6,7 @@ from .gcp.cloud_run import Cloud_Run
 from .gcp.gke import GKE
 
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
-logger = logging.getLogger('main')
+logger = logging.getLogger('konfig')
 
 
 def get_values_from_k8s():
@@ -82,3 +82,6 @@ def __parse_reference(value):
         "resource_name": resource_name,
         "key": key
     }
+
+if __name__ == "__main__":
+    get_values_from_k8s()
