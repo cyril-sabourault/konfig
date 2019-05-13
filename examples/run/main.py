@@ -1,8 +1,7 @@
 import os
+import konfig
 import logging
 from flask import Flask, jsonify
-
-from konfig import get_values_from_k8s
 
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
 logger = logging.getLogger('main')
@@ -17,7 +16,7 @@ def hello_world():
 
 @app.route('/konfig')
 def konfig():
-    values_from_k8s = get_values_from_k8s()
+    values_from_k8s = konfig.get_values_from_k8s()
     return jsonify(values_from_k8s)
 
 
