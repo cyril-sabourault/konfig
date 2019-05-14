@@ -1,17 +1,25 @@
 Poor man's python implementation of [Kelsey Hightower's Go Konfig][kelseyhightower-konfig]
 
-> * no support for config files in secrets
+> * no support for config files in secrets (yet)
 
-#### Commandless testing on Cloud Run: 
-[![Run on Google Cloud][cloud-run-button]][cloud-shell-link-with-git-repo]
-> Then deploy a new revision of this service with your secret environment variables :)
+#### Commandful testing on Cloud Run: 
+```bash
+GCLOUD_PROJECT=$(gcloud config get-value project)
+
+gcloud builds submit examples/run \
+  --tag eu.gcr.io/$GCLOUD_PROJECT/konfig
+
+gcloud beta run deploy konfig \
+  --region us-central1 \
+  --image eu.gcr.io/$GCLOUD_PROJECT/konfig
+```
 ---
 
 # Konfig 
 
 konfig enables serverless workloads running on GCP to reference Kubernetes configmaps and secrets stored in GKE clusters at runtime. konfig currently supports Cloud Run workloads.
 
-## How Does it Work
+## How does it Work
 
 The side effect of importing the `konfig` library will cause konfig to:
 
