@@ -28,7 +28,7 @@ class Cloud_Run:
         return os.environ.get("K_SERVICE")
 
     def __get_project(self):
-        return os.environ.get("GOOGLE_CLOUD_PROJECT")
+        return self.http.get_metadata('/v1/project/project-id')
 
     def __get_service_name(self):
         if (self.service == "") or (self.project == ""):
