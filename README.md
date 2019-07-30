@@ -1,7 +1,5 @@
 Poor man's python implementation of [Kelsey Hightower's Go Konfig][kelseyhightower-konfig]
 
-> * no support for config files in secrets (yet)
-
 #### Commandful testing on Cloud Run: 
 ```bash
 GCLOUD_PROJECT=$(gcloud config get-value project)
