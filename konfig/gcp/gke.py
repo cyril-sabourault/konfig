@@ -1,6 +1,7 @@
 import os
 import json
 import logging
+import tempfile
 
 from ..utils.http import HTTP
 from base64 import b64decode
@@ -35,4 +36,23 @@ class GKE:
 
         if (reference.get('kind') == 'secret'):
             return b64decode(key).decode('ascii')
+
+        if (reference.get('tempFile') is not None):
+            try:
+                temp_file = __make_temp_file(key)
+                return temp_file
+            except (Exception) as e:
+                return e
+
         return key
+
+        def __make_temp_file(content):
+            try:
+                temp_file = tempfile.NamedTemporaryFile(mode='w+t', delete=False)
+                temp_file.write(content)
+                temp_file.close()
+
+                return temp_file
+            except (Exception) as e:
+                logger.error('[ERROR] writing temp file: e ({}): {}'.format(type(e), e))
+                return e

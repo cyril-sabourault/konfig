@@ -1,6 +1,8 @@
 import os
 import logging
 
+from urllib.parse import urlparse, parse_qs
+
 from .gcp.cloud_functions import Cloud_Functions
 from .gcp.cloud_run import Cloud_Run
 from .gcp.gke import GKE
@@ -66,6 +68,14 @@ def __parse_reference(value):
         kind = 'secret'
 
     try:
+        url = urlparse(path)
+        qs = parse_qs(url.query)
+
+        temp_file = qs.get('tempFile')[0]
+    except (IndexError, TypeError) as e:
+        temp_file = None
+
+    try:
         ss = path.split('/')
         cluster_id = '/'.join(ss[i] for i in range(1, 7))
 
@@ -75,13 +85,19 @@ def __parse_reference(value):
     except (IndexError, Exception) as e:
         return {}
 
-    return {
+    reference = {
+        "kind": kind,
         "cluster_id": cluster_id,
         "namespace": namespace,
-        "kind": kind,
         "resource_name": resource_name,
-        "key": key
+        "key": key,
+        "tempFile": temp_file
     }
 
-if __name__ == "__main__":
-    get_values_from_k8s()
+    return reference
+
+
+# __get_tempFile('$SecretKeyRef:/projects/sandbox-csabourault/zones/europe-west1-b/clusters/k0/namespaces/default/secrets/env/keys/config.json?tempFile=true')
+reference = __parse_reference(
+    '$SecretKeyRef:/projects/sandbox-csabourault/zones/europe-west1-b/clusters/k0/namespaces/default/secrets/env/keys/config.json?tempFile=')
+print('[DEBUG] reference ({}): {}'.format(type(reference), reference))
