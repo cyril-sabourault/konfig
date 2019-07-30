@@ -1,7 +1,10 @@
 import os
+import logging
 
 from ..utils.http import HTTP
 
+logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
+logger = logging.getLogger('cloud_functions')
 
 class Cloud_Functions:
     def __init__(self):
